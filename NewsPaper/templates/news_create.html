@@ -1,0 +1,26 @@
+{% extends 'default.html' %}
+
+
+{% block title %}
+
+        CREATE
+
+{% endblock title %}
+
+{% block content %}
+
+{% if publication != 0 %}
+    <p> Количество публикаций на сегодня: {{ publication }} </p>
+    <h3>Добавить информацию о статье и\или новости</h3>
+        <form method="POST">
+        {% csrf_token %}
+            <div> {{ form.as_p }} </div>
+            <input type="submit" value="Добавить">
+            <button> <a href="/news/"> Отмена </a> </button>
+        </form>
+{% else %}
+<h3> Лимит исчерпан на сегодня </h3>
+{% endif %}
+
+{% endblock content %}
+

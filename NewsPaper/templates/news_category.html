@@ -1,0 +1,39 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+{% block title %} CAT_Deta {% endblock title %}
+
+{% block content %}
+
+
+<h2>{{ category.category_name }}</h2>
+
+<div>
+{% if user.is_authenticated %}
+    {% if not is_subscriber %}
+    <form action="{% url 'subscribe' category.pk %}" method="POST">
+        {% csrf_token %}
+        <p><input class="button_info" type="submit" value="Подписаться"> на категорию</p>
+    </form>
+    {% endif %}
+    {% if is_subscriber %}
+    <form action="{% url 'subscribe' category.pk %}" method="POST">
+        {% csrf_token %}
+        <p><input class="button_info" type="submit" value="Отписаться"></p>
+    </form>
+    {% endif %}
+{% endif %}
+</div>
+
+{% for post in posts_in_category %}
+    <div class="blok_center">
+        <hr>
+        <h3><p>{{ post.get_position_display }}</p></h3>
+        <h4><a>{{ post.preview_name }}</a></h4>
+        <p>{{ post.postAuthor}} {{post.dateCreation|date:'d.m.Y H:i' }}</p>
+        <p>{{ post.text }}</p>
+        <p>Рейтинг: {{ post.rating }}</p>
+    </div>
+{% endfor %}
+
+{% endblock content %}

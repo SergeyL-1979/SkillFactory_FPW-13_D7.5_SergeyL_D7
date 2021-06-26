@@ -1,0 +1,56 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+
+{% block title %}
+
+        NEW_DETAIL
+
+{% endblock title %}
+
+{% block content %}
+
+<div>
+    {% if PCC %}
+    <h4> Автор: {{ new.postAuthor }} </h4>
+    <h4> <a> {{ new.get_position_display  }} из  {{ PCC }}  </a> </h4>
+    <hr>
+<div >
+    {% endif %}
+</div>
+    <h1>{{ new.preview_name|censor }}</h1>
+    <h1>{{ new.dateCreation|date:'d M Y, H:m'  }}</h1>
+    <p>{{ new.text|censor }}</p>
+</div>
+
+<br>
+
+<div>
+    <a href="{% url 'news_update' new.id %}"> <button>Редактировать</button> </a>
+    <button> <a href="/news/"> Отмена </a> </button>
+</div>
+<hr>
+<div>
+    {% if CP %}
+    <h1> Комментарии </h1>
+    {% for comment in CP %}
+    <div>
+        <h3> {{ comment.commentUser }} {{ comment.dataCreation|date:'d M Y, H:m' }} </h3>
+        <a> {{ comment.commentText }} </a>
+    </div>
+    {% endfor %}
+    {% else %}
+    <br>
+    <h2>НЕТУ!</h2>
+    {% endif %}
+</div>
+<div>
+    <h2> Добавить новый комментарий </h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="submit" value="Добавить комментарий"></p>
+    </form>
+</div>
+
+{% endblock content %}
